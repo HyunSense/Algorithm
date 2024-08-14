@@ -10,6 +10,14 @@ public class BackJoon_4963 {
     static int[][] map;
     static boolean[][] visited;
     static int w, h;
+    static int count;
+    static int totalCount;
+
+//    static int[] dY = {0, 0, 0, 1, -1, 1, -1, 1, -1};
+//    static int[] dX = {0, 1, -1, 0, 0, 1, -1, -1, 1};
+    static int[] dY = {0, 0, 1, -1, 1, -1, 1, -1};
+    static int[] dX = {1, -1, 0, 0, 1, -1, -1, 1};
+
 
     public static void main(String[] args) throws IOException {
 
@@ -24,30 +32,69 @@ public class BackJoon_4963 {
                 break;
             }
 
-            map = new int[w][h];
-            visited = new boolean[w][h];
+            map = new int[h][w];
+            visited = new boolean[h][w];
 
-            for (int i = 0; i < w; i++) {
+            for (int i = 0; i < h; i++) {
                 st = new StringTokenizer(br.readLine(), " ");
-                for (int j = 0; j < h; j++) {
+                for (int j = 0; j < w; j++) {
                     map[i][j] = Integer.parseInt(st.nextToken());
                 }
             }
 
-            dfs();
+            findLand();
+            System.out.println(count);
+            count = 0;
         }
     }
 
-    static void dfs() {
+    static void findLand() {
 
-
-        for (int i = 0; i < w; i++) {
-            for (int j = 0; j < h; j++) {
-                visited[i][j] = true;
-
-                if (map[i][j] == 1)
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                if (map[i][j] == 1 && !visited[i][j]) {
+                    dfs(i, j);
+                    count++;
+                }
             }
         }
+    }
 
+//    static int dfs(int y, int x) {
+//
+//        for (int i = 0; i < 8; i++) {
+//            int newY = y + dY[i];
+//            int newX = x + dX[i];
+//
+//            if (newY < 0 || newX < 0 || newY >= h || newX >= w) {
+//                continue;
+//            }
+//
+//
+//            if (map[newY][newX] == 1 && !visited[newY][newX]) {
+//                visited[newY][newX] = true;
+//                count = count + 1;
+//                dfs(newY, newX);
+//            }
+//        }
+//        return count;
+//    }
+
+    static void dfs(int y, int x) {
+
+        for (int i = 0; i < 8; i++) {
+            int newY = y + dY[i];
+            int newX = x + dX[i];
+
+            if (newY < 0 || newX < 0 || newY >= h || newX >= w) {
+                continue;
+            }
+
+
+            if (map[newY][newX] == 1 && !visited[newY][newX]) {
+                visited[newY][newX] = true;
+                dfs(newY, newX);
+            }
+        }
     }
 }
