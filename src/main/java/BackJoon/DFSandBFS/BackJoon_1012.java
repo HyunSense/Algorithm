@@ -67,8 +67,5 @@ public class BackJoon_1012 {
                 dfs(newY, newX);
             }
         }
-
-
-
     }
 }
